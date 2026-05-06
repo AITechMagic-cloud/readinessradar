@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getTier, pillars, questions } from "@/data/questions";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from "recharts";
-import { Lock } from "lucide-react";
+import { Lock, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 
 const Results = () => {
   const navigate = useNavigate();
   const [submission, setSubmission] = useState<any>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const raw = localStorage.getItem("rr_submission");
@@ -33,6 +35,17 @@ const Results = () => {
     value: ps.pct,
     fullMark: 100,
   }));
+
+  const handleCopyShare = async () => {
+    try {
+      await navigator.clipboard.writeText(tier.shareLine);
+      setCopied(true);
+      toast({ title: "Copied to clipboard" });
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast({ title: "Could not copy", variant: "destructive" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,8 +79,64 @@ const Results = () => {
           transition={{ delay: 0.2 }}
           className="bg-card border border-border rounded-2xl p-8 mb-8"
         >
-          <h2 className="font-display font-bold text-xl text-primary mb-3">Your Assessment</h2>
-          <p className="text-foreground leading-relaxed">{tier.narrative}</p>
+          {/* Score bridge */}
+          <p
+            className="italic font-display text-lg leading-relaxed mb-8 pl-4 border-l-4"
+            style={{ borderColor: tier.color, color: tier.color }}
+          >
+            {tier.scoreBridge}
+          </p>
+
+          {/* What your score tells us */}
+          <h2 className="font-display font-bold text-xl text-primary mb-3">What your score tells us</h2>
+          <p className="text-foreground leading-relaxed mb-8">{tier.narrative}</p>
+
+          {/* What this typically means */}
+          <h2 className="font-display font-bold text-xl text-primary mb-3">
+            What this typically means for your organization
+          </h2>
+          <ul className="space-y-3 mb-8">
+            {tier.bullets.map((b, i) => (
+              <li key={i} className="flex gap-3 text-foreground leading-relaxed">
+                <span
+                  className="mt-2 w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: tier.color }}
+                />
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Recommended next step */}
+          <h2 className="font-display font-bold text-xl text-primary mb-3">Your recommended next step</h2>
+          <p className="text-foreground leading-relaxed mb-6">{tier.nextStep}</p>
+          <a href={tier.ctaLink}>
+            <Button
+              className="font-display font-semibold rounded-xl text-white hover:opacity-90"
+              style={{ backgroundColor: tier.color }}
+              size="lg"
+            >
+              {tier.ctaText}
+            </Button>
+          </a>
+
+          {/* Share line */}
+          <div
+            className="mt-10 rounded-xl p-5 flex items-start gap-3"
+            style={{ backgroundColor: tier.color + "12", borderLeft: `4px solid ${tier.color}` }}
+          >
+            <blockquote className="flex-1 font-serif italic text-foreground leading-relaxed">
+              "{tier.shareLine}"
+            </blockquote>
+            <button
+              onClick={handleCopyShare}
+              className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-background border border-border hover:bg-muted transition-colors text-xs font-display font-medium text-foreground"
+              aria-label="Copy share line"
+            >
+              {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? "Copied" : "Copy"}
+            </button>
+          </div>
         </motion.div>
 
         {/* Pillar breakdown */}
