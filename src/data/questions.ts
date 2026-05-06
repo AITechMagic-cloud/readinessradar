@@ -133,27 +133,66 @@ export interface Tier {
   range: [number, number];
   color: string;
   narrative: string;
+  scoreBridge: string;
+  bullets: string[];
+  nextStep: string;
+  ctaText: string;
+  ctaLink: string;
+  shareLine: string;
 }
 
 export const tiers: Tier[] = [
   {
     name: "AI Dormant",
     range: [20, 33],
-    color: "#94A3B8",
-    narrative: "Your organization is at the beginning of its AI journey. There's significant opportunity to build foundational capabilities across data, team, process, governance, leadership, and current maturity. The good news? Starting from here means you can leapfrog common pitfalls by building a deliberate, well-structured AI roadmap from day one."
+    color: "#C44545",
+    scoreBridge: "A score of 20–33 places you in AI Dormant — the foundation stage where the right preparation creates the fastest path forward.",
+    narrative: "Your organization isn't behind because of a lack of ambition. It simply doesn't have the foundation in place to succeed with AI yet. Data is fragmented. Processes are inconsistent. AI strategy hasn't been formally defined. These are fixable — and fixing them before investing in AI tools is exactly the right sequence. Most mid-market companies at this stage are in the same position. The ones that move fastest aren't the ones who buy the most tools. They're the ones who build the right foundation first.",
+    bullets: [
+      "AI pilots launched now are likely to stall — data and process gaps are the real blockers",
+      "Vendor promises will outpace your ability to implement and sustain them",
+      "The next 90 days should focus on data, governance, and process — not tools",
+      "One structured diagnostic now saves months of costly course-correction later",
+    ],
+    nextStep: "Before investing further in AI tools, you need an AI Foundation Audit — a structured review of your data, process, and governance gaps with a clear path forward. Book a free 30-minute call to walk through your results and identify your highest-priority first moves.",
+    ctaText: "Book Your Free Readiness Call →",
+    ctaLink: "mailto:info@aitechmagic.com?subject=ReadinessRadar%20Results%20-%20AI%20Dormant",
+    shareLine: "I'm AI Dormant — building the foundation before the tools. #ReadinessRadar #AITechMagic",
   },
   {
     name: "AI Awakening",
     range: [34, 47],
     color: "#E8784A",
-    narrative: "Your organization has begun its AI journey and has pockets of capability. To accelerate, focus on connecting isolated efforts into a cohesive strategy, investing in data infrastructure, and building cross-functional collaboration. You're in a strong position to scale what's working and close gaps strategically."
+    scoreBridge: "A score of 34–47 places you in AI Awakening — the stage where momentum is real, and the next move matters most.",
+    narrative: "Your organization is moving — and that matters. You have some data infrastructure, growing AI interest, and at least a few initiatives underway. But this is also the most critical stage. It's where most AI investments get made before the organization is ready to sustain them. Pilots launch. Results disappoint. Enthusiasm fades. The difference between companies that break through and those that stall comes down to one thing: targeted action on the right gaps — not more tools.",
+    bullets: [
+      "You have enough foundation for real wins — but they need to be chosen carefully",
+      "Governance and change management are likely your weakest links right now",
+      "One or two well-scoped projects can deliver visible ROI within 60–90 days",
+      "Without a clear roadmap, momentum stalls and AI skeptics win the argument",
+    ],
+    nextStep: "You're closer than you think — but proximity is also where costly mistakes happen. Map your three highest-priority quick wins, identify the one blocker most likely to derail you, and leave with a 90-day plan your team can actually execute. Book a free 30-minute call to get your roadmap.",
+    ctaText: "Map Your 90-Day AI Plan →",
+    ctaLink: "mailto:info@aitechmagic.com?subject=ReadinessRadar%20Results%20-%20AI%20Awakening",
+    shareLine: "I'm AI Awakening — momentum is building and the right next move matters most. #ReadinessRadar #AITechMagic",
   },
   {
     name: "AI Accelerating",
     range: [48, 60],
-    color: "#22C55E",
-    narrative: "Your organization is well-positioned to lead with AI. You have strong foundations across most pillars and are likely already seeing measurable business impact. The next frontier is optimization — refining your approach, scaling successful initiatives, and staying ahead of emerging capabilities."
-  }
+    color: "#3B8B5C",
+    scoreBridge: "A score of 48–60 places you in AI Accelerating — ahead of the vast majority of mid-market organizations.",
+    narrative: "Your organization has done the hard work. Strong data infrastructure, leadership alignment, governance in place, and real AI initiatives in production. That puts you well ahead of most mid-market peers — the majority of whom are still in Stage 1 or 2. The challenge now isn't getting started. It's scaling intelligently without losing the governance and quality standards that got you here. The next frontier for organizations at your stage is agentic AI, enterprise-wide knowledge systems, and building the internal capability to sustain AI-driven transformation long term.",
+    bullets: [
+      "You're positioned to move from AI experimentation to AI-as-competitive-advantage",
+      "Agentic AI and workflow automation are your highest-leverage next investments",
+      "Institutional knowledge preservation and AI governance at scale become critical",
+      "The gap between you and competitors who haven't started is widening — now is the time to accelerate",
+    ],
+    nextStep: "Organizations at your stage don't need more strategy documents — they need an expert who can see around corners. An AI Scale Session maps your next 12 months of AI investment against your specific business goals, identifies the two or three transformational opportunities most likely to create durable competitive advantage, and helps you avoid the scaling pitfalls that derail even advanced organizations.",
+    ctaText: "Book Your Free Scale Session →",
+    ctaLink: "mailto:info@aitechmagic.com?subject=ReadinessRadar%20Results%20-%20AI%20Accelerating",
+    shareLine: "My organization is AI Accelerating — the foundation is strong and it's time to scale intelligently. #ReadinessRadar #AITechMagic",
+  },
 ];
 
 export function getTier(score: number): Tier {
