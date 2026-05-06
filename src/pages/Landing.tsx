@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, Brain, Target, Zap } from "lucide-react";
+import { ArrowRight, Database, Users, Workflow, ShieldCheck, Compass, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Landing = () => {
@@ -31,7 +31,7 @@ const Landing = () => {
             How AI-ready is<br />your organization?
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            Answer 20 strategic questions across 5 pillars. Get your AI maturity score, personalized insights, and a clear roadmap in under 10 minutes.
+            Answer 20 strategic questions across 6 pillars. Get your AI maturity score, personalized insights, and a clear roadmap in under 10 minutes.
           </p>
           <Button onClick={() => navigate("/assessment")} size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-display font-semibold text-lg px-8 py-6 rounded-xl shadow-lg shadow-accent/20">
             Take the Assessment <ArrowRight className="w-5 h-5 ml-2" />
@@ -41,16 +41,17 @@ const Landing = () => {
 
       {/* Pillars */}
       <section className="max-w-5xl mx-auto px-6 pb-24">
-        <h2 className="font-display font-bold text-2xl text-primary text-center mb-12">5 pillars we evaluate</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <h2 className="font-display font-bold text-2xl text-primary text-center mb-12">6 pillars we evaluate</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {[
-            { icon: Target, label: "Strategy" },
-            { icon: BarChart3, label: "Data" },
-            { icon: Brain, label: "Talent" },
-            { icon: Zap, label: "Technology" },
-            { icon: ArrowRight, label: "Culture" },
+            { icon: Database, label: "Data & Infrastructure" },
+            { icon: Users, label: "Team & Skills" },
+            { icon: Workflow, label: "Process Readiness" },
+            { icon: ShieldCheck, label: "Governance & Risk" },
+            { icon: Compass, label: "Leadership & Strategy" },
+            { icon: Sparkles, label: "Current AI Maturity" },
           ].map((p) => (
-            <div key={p.label} className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-card border border-border">
+            <div key={p.label} className="flex flex-col items-center text-center gap-3 p-6 rounded-2xl bg-card border border-border">
               <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center">
                 <p.icon className="w-5 h-5 text-primary" />
               </div>
