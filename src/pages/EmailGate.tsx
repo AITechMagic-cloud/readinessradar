@@ -49,9 +49,11 @@ const EmailGate = () => {
     };
 
     try {
-      const { data, error } = await supabase
+      const id = crypto.randomUUID();
+      const { error } = await supabase
         .from("readiness_assessments")
-        .insert({
+        .insert([{
+          id,
           first_name: form.firstName,
           email: form.email,
           company_name: form.company || null,
@@ -60,13 +62,9 @@ const EmailGate = () => {
           total_score: totalScore,
           bucket: dbBucket,
           pillar_scores,
-        })
-        .select("id")
-        .single();
+        }]);
       if (error) throw error;
-      if (data?.id) {
-        localStorage.setItem("rr_assessment_id", String(data.id));
-      }
+      localStorage.setItem("rr_assessment_id", id);
     } catch (err) {
       console.error("Supabase insert failed:", err);
     }
