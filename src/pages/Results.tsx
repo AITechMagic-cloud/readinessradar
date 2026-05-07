@@ -11,11 +11,13 @@ const Results = () => {
   const navigate = useNavigate();
   const [submission, setSubmission] = useState<any>(null);
   const [copied, setCopied] = useState(false);
+  const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
     const raw = localStorage.getItem("rr_submission");
     if (!raw) { navigate("/"); return; }
     setSubmission(JSON.parse(raw));
+    setIsPro(localStorage.getItem("rr_is_pro") === "true");
   }, [navigate]);
 
   if (!submission) return null;
@@ -45,6 +47,19 @@ const Results = () => {
     } catch {
       toast({ title: "Could not copy", variant: "destructive" });
     }
+  };
+
+  const handleUpgrade = () => {
+    const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/28EfZg0W33Bh3xw5gv8og00";
+    const assessmentId = localStorage.getItem("rr_assessment_id");
+    const email = localStorage.getItem("rr_email") || submission?.email || "";
+    if (!assessmentId) {
+      console.warn("rr_assessment_id missing — proceeding to Stripe without linking");
+    }
+    const params = new URLSearchParams();
+    if (assessmentId) params.set("client_reference_id", assessmentId);
+    if (email) params.set("prefilled_email", email);
+    window.location.href = `${STRIPE_PAYMENT_LINK}?${params.toString()}`;
   };
 
   return (
@@ -176,26 +191,37 @@ const Results = () => {
           className="bg-card border border-border rounded-2xl p-8 mb-8 relative"
         >
           <h2 className="font-display font-bold text-xl text-primary mb-4">Radar View</h2>
-          <div className="relative">
-            <div className="blur-sm pointer-events-none select-none">
-              <ResponsiveContainer width="100%" height={300}>
-                <RadarChart data={radarData}>
-                  <PolarGrid stroke="hsl(var(--border))" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12, fontFamily: 'Outfit' }} />
-                  <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} axisLine={false} />
-                  <Radar name="Score" dataKey="value" stroke="#E8784A" fill="#E8784A" fillOpacity={0.3} />
-                </RadarChart>
-              </ResponsiveContainer>
+          {isPro ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <RadarChart data={radarData}>
+                <PolarGrid stroke="hsl(var(--border))" />
+                <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12, fontFamily: 'Outfit' }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} axisLine={false} />
+                <Radar name="Score" dataKey="value" stroke="#E8784A" fill="#E8784A" fillOpacity={0.3} />
+              </RadarChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="relative">
+              <div className="blur-sm pointer-events-none select-none">
+                <ResponsiveContainer width="100%" height={300}>
+                  <RadarChart data={radarData}>
+                    <PolarGrid stroke="hsl(var(--border))" />
+                    <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12, fontFamily: 'Outfit' }} />
+                    <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} axisLine={false} />
+                    <Radar name="Score" dataKey="value" stroke="#E8784A" fill="#E8784A" fillOpacity={0.3} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <Lock className="w-8 h-8 text-muted-foreground mb-3" />
+                <p className="font-display font-semibold text-primary mb-1">Unlock Radar View</p>
+                <p className="text-sm text-muted-foreground mb-4">Get per-pillar radar chart with Pro</p>
+                <Button onClick={handleUpgrade} className="bg-accent text-accent-foreground hover:bg-accent/90 font-display font-semibold rounded-xl">
+                  Upgrade to Pro — $79/mo
+                </Button>
+              </div>
             </div>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <Lock className="w-8 h-8 text-muted-foreground mb-3" />
-              <p className="font-display font-semibold text-primary mb-1">Unlock Radar View</p>
-              <p className="text-sm text-muted-foreground mb-4">Get per-pillar radar chart with Pro</p>
-              <Button className="bg-accent text-accent-foreground hover:bg-accent/90 font-display font-semibold rounded-xl">
-                Upgrade to Pro — $79/mo
-              </Button>
-            </div>
-          </div>
+          )}
         </motion.div>
 
         {/* CTA */}
