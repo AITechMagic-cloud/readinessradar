@@ -65,6 +65,7 @@ const EmailGate = () => {
         }]);
       if (error) throw error;
       localStorage.setItem("rr_assessment_id", id);
+      localStorage.setItem("rr_email", form.email);
     } catch (err) {
       console.error("Supabase insert failed:", err);
     }
