@@ -7,6 +7,7 @@ import Landing from "./pages/Landing.tsx";
 import Assessment from "./pages/Assessment.tsx";
 import EmailGate from "./pages/EmailGate.tsx";
 import Results from "./pages/Results.tsx";
+import UpgradeSuccess from "./pages/UpgradeSuccess.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/email-gate" element={<EmailGate />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/upgrade-success" element={<UpgradeSuccess />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
