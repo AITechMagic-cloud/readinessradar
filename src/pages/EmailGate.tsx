@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { supabase } from "@/lib/supabase";
+import { questions } from "@/data/questions";
 
 const EmailGate = () => {
   const navigate = useNavigate();
@@ -29,10 +31,47 @@ const EmailGate = () => {
     const submission = { ...form, answers, totalScore, bucket };
     localStorage.setItem("rr_submission", JSON.stringify(submission));
 
-    // TODO: Save to Supabase here
-    setTimeout(() => {
-      navigate("/results");
-    }, 500);
+    const dbBucket =
+      totalScore >= 48 ? "accelerating" : totalScore >= 34 ? "awakening" : "dormant";
+
+    const answersArray = questions.map((q) => ({
+      question_id: q.id,
+      score: Number(answers[q.id]) || 0,
+    }));
+    const s = (id: number) => Number(answers[id]) || 0;
+    const pillar_scores = {
+      data: s(1) + s(2) + s(3) + s(4),
+      team: s(5) + s(6) + s(7),
+      process: s(8) + s(9) + s(10),
+      governance: s(11) + s(12) + s(13),
+      leadership: s(14) + s(15) + s(16),
+      maturity: s(17) + s(18) + s(19) + s(20),
+    };
+
+    try {
+      const { data, error } = await supabase
+        .from("readiness_assessments")
+        .insert({
+          first_name: form.firstName,
+          email: form.email,
+          company_name: form.company || null,
+          company_size: form.companySize || null,
+          answers: answersArray,
+          total_score: totalScore,
+          bucket: dbBucket,
+          pillar_scores,
+        })
+        .select("id")
+        .single();
+      if (error) throw error;
+      if (data?.id) {
+        localStorage.setItem("rr_assessment_id", String(data.id));
+      }
+    } catch (err) {
+      console.error("Supabase insert failed:", err);
+    }
+
+    navigate("/results");
   };
 
   return (
