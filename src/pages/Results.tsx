@@ -6,6 +6,7 @@ import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Responsi
 import { Lock, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabase";
 
 const Results = () => {
   const navigate = useNavigate();
@@ -17,7 +18,32 @@ const Results = () => {
     const raw = localStorage.getItem("rr_submission");
     if (!raw) { navigate("/"); return; }
     setSubmission(JSON.parse(raw));
+    // Optimistic hint so paying users don't flash the locked state
     setIsPro(localStorage.getItem("rr_is_pro") === "true");
+
+    // Source of truth: database is_pro, set only by Stripe webhook
+    const assessmentId = localStorage.getItem("rr_assessment_id");
+    if (!assessmentId) {
+      setIsPro(false);
+      return;
+    }
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("readiness_assessments")
+          .select("is_pro")
+          .eq("id", assessmentId)
+          .maybeSingle();
+        if (error || !data) {
+          setIsPro(false);
+          return;
+        }
+        setIsPro(data.is_pro === true);
+      } catch (err) {
+        console.error("Failed to verify pro status:", err);
+        setIsPro(false);
+      }
+    })();
   }, [navigate]);
 
   if (!submission) return null;
