@@ -76,7 +76,7 @@ const Results = () => {
   };
 
   const handleUpgrade = () => {
-    const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_28EfZg0W33Bh3xw5gv8og00";
+    const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/28EfZg0W33Bh3xw5gv8og00";
     const assessmentId = localStorage.getItem("rr_assessment_id");
     const email = localStorage.getItem("rr_email") || submission?.email || "";
     if (!assessmentId) {
