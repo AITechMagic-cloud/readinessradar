@@ -1,7 +1,8 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "readiness-radar",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "AI Readiness assessment funnel: a 20-question, 6-pillar self-assessment with Supabase persistence and a Stripe-gated Pro tier.",
   "type": "module",
   "scripts": {
     "dev": "vite",

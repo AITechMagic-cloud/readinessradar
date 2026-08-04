@@ -76,7 +76,11 @@ const Results = () => {
   };
 
   const handleUpgrade = () => {
-    const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/28EfZg0W33Bh3xw5gv8og00";
+    const STRIPE_PAYMENT_LINK = import.meta.env.VITE_STRIPE_PAYMENT_LINK;
+    if (!STRIPE_PAYMENT_LINK) {
+      console.error("Missing VITE_STRIPE_PAYMENT_LINK env var. Set it to your own Stripe Payment Link.");
+      return;
+    }
     const assessmentId = localStorage.getItem("rr_assessment_id");
     const email = localStorage.getItem("rr_email") || submission?.email || "";
     if (!assessmentId) {

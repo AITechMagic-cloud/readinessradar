@@ -1,3 +1,5 @@
+const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || "your-email@example.com";
+
 export interface Question {
   id: number;
   pillar: string;
@@ -156,8 +158,8 @@ export const tiers: Tier[] = [
     ],
     nextStep: "Before investing further in AI tools, you need an AI Foundation Audit — a structured review of your data, process, and governance gaps with a clear path forward. Book a free 30-minute call to walk through your results and identify your highest-priority first moves.",
     ctaText: "Book Your Free Readiness Call →",
-    ctaLink: "mailto:info@aitechmagic.com?subject=ReadinessRadar%20Results%20-%20AI%20Dormant",
-    shareLine: "I'm AI Dormant — building the foundation before the tools. #ReadinessRadar #AITechMagic",
+    ctaLink: `mailto:${CONTACT_EMAIL}?subject=ReadinessRadar%20Results%20-%20AI%20Dormant`,
+    shareLine: "I'm AI Dormant — building the foundation before the tools. #ReadinessRadar",
   },
   {
     name: "AI Awakening",
@@ -173,8 +175,8 @@ export const tiers: Tier[] = [
     ],
     nextStep: "You're closer than you think — but proximity is also where costly mistakes happen. Map your three highest-priority quick wins, identify the one blocker most likely to derail you, and leave with a 90-day plan your team can actually execute. Book a free 30-minute call to get your roadmap.",
     ctaText: "Map Your 90-Day AI Plan →",
-    ctaLink: "mailto:info@aitechmagic.com?subject=ReadinessRadar%20Results%20-%20AI%20Awakening",
-    shareLine: "I'm AI Awakening — momentum is building and the right next move matters most. #ReadinessRadar #AITechMagic",
+    ctaLink: `mailto:${CONTACT_EMAIL}?subject=ReadinessRadar%20Results%20-%20AI%20Awakening`,
+    shareLine: "I'm AI Awakening — momentum is building and the right next move matters most. #ReadinessRadar",
   },
   {
     name: "AI Accelerating",
@@ -190,8 +192,8 @@ export const tiers: Tier[] = [
     ],
     nextStep: "Organizations at your stage don't need more strategy documents — they need an expert who can see around corners. An AI Scale Session maps your next 12 months of AI investment against your specific business goals, identifies the two or three transformational opportunities most likely to create durable competitive advantage, and helps you avoid the scaling pitfalls that derail even advanced organizations.",
     ctaText: "Book Your Free Scale Session →",
-    ctaLink: "mailto:info@aitechmagic.com?subject=ReadinessRadar%20Results%20-%20AI%20Accelerating",
-    shareLine: "My organization is AI Accelerating — the foundation is strong and it's time to scale intelligently. #ReadinessRadar #AITechMagic",
+    ctaLink: `mailto:${CONTACT_EMAIL}?subject=ReadinessRadar%20Results%20-%20AI%20Accelerating`,
+    shareLine: "My organization is AI Accelerating — the foundation is strong and it's time to scale intelligently. #ReadinessRadar",
   },
 ];
 
